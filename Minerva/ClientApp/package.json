@@ -49,7 +49,7 @@
     "ajv": "^8.11.0",
     "babel-loader": "^8.2.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.22.0",
+    "eslint": "^8.33.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-mantine": "^2.0.0",
