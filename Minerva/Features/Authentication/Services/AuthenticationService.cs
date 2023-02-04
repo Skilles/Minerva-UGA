@@ -70,7 +70,11 @@ public class AuthenticationService
 
         await UserRepository.Collection.Indexes.CreateOneAsync(new CreateIndexModel<UserDocument>(emailIndex, emailIndexOptions), cancellationToken: ct);
         
-        await EmailService.SendVerificationEmailAsync(mailAddress.Address, token.ToString(), ct);
+        // temp check for dev environment
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+        {
+            await EmailService.SendVerificationEmailAsync(mailAddress.Address, token.ToString(), ct);
+        }
     }
 
     public async Task<UserResponseRecord> LoginUserAsync(string email, string password, CancellationToken ct)
@@ -95,7 +99,7 @@ public class AuthenticationService
             throw new MinervaValidationException("Invalid password");
         }
 
-        if (!user.Verified)
+        if (!user.Verified && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
         {
             throw new MinervaValidationException("User is not verified");
         }
