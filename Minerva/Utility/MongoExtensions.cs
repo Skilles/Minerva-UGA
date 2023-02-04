@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using Minerva.Config;
 using Minerva.Infrastructure.Database;
 using MongoDB.Bson;
@@ -10,6 +11,22 @@ namespace Minerva.Utility;
 
 public static class MongoExtensions
 {
+    public static async Task<TResult> FindOneAsync<TResult>(this IRepository<TResult> repository, FilterDefinition<TResult> filter, ProjectionDefinition<TResult>? projection = null, CancellationToken cancellationToken = default)
+    {
+        var options = new FindOptions<TResult>
+        {
+            Limit = 1,
+            Projection = projection
+        };
+
+        var cursor = await repository.Collection.FindAsync(filter, options, cancellationToken);
+
+        return await cursor.FirstAsync(cancellationToken);
+    }
+    
+    public static async Task<TResult> FindOneAsync<TResult>(this IRepository<TResult> repository, Expression<Func<TResult, bool>> filter, ProjectionDefinition<TResult>? projection = null, CancellationToken cancellationToken = default) 
+        => await repository.FindOneAsync(new ExpressionFilterDefinition<TResult>(filter), projection, cancellationToken);
+
     public static TResult DoTransaction<TResult>(this IMongoClient client, Func<IClientSessionHandle, CancellationToken, TResult> action, TransactionOptions? options = null, CancellationToken cancellationToken = default)
     {
         using var session = client.StartSession();

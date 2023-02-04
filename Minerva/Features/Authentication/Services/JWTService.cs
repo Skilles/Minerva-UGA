@@ -28,7 +28,8 @@ public class JWTService
              new Claim(JwtRegisteredClaimNames.Email, user.Email.Address),
              new Claim("roles", user.Role.ToString()),
              new Claim("Date", DateTime.Now.ToString(CultureInfo.InvariantCulture)),
-             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+             new Claim("userId", user.Id.ToString())
          };
 
          var token = new JwtSecurityToken(Config.Issuer, Config.Issuer, claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);

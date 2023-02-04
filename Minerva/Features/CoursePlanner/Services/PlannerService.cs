@@ -1,7 +1,9 @@
-﻿using Minerva.Features.CoursePlanner.Assemblers;
+﻿using Minerva.Features.Athena.Documents;
+using Minerva.Features.CoursePlanner.Assemblers;
 using Minerva.Features.CoursePlanner.Documents;
 using Minerva.Features.CoursePlanner.Records;
 using Minerva.Infrastructure.Database;
+using Minerva.Utility;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -19,44 +21,51 @@ public class PlannerService
         PlannerDataAssembler = plannerDataAssembler;
     }
     
-    public async Task<ObjectId> CreatePlannerAsync(string userId, string termId)
+    public async Task<ObjectId> CreatePlannerAsync(ObjectId userId, ObjectId termId, CancellationToken ct)
     {
         var plannerDocument = new PlannerDocument
         {
-            UserId = ObjectId.Parse(userId),
-            TermId = ObjectId.Parse(termId),
+            UserId = userId,
+            TermId = termId,
             CourseIds = new(),
             SectionIds = new()
         };
         
         var filter = Builders<PlannerDocument>.Filter.Eq(p => p.UserId, plannerDocument.UserId) & Builders<PlannerDocument>.Filter.Eq(p => p.TermId, plannerDocument.TermId);
 
-        plannerDocument = await PlannerRepository.UpsertAndReturnAsync(plannerDocument, filter);
+        plannerDocument = await PlannerRepository.UpsertAndReturnAsync(plannerDocument, filter, ct);
         
         return plannerDocument.Id;
     }
     
-    public async Task<PlannerDataRecord> GetPlannerDataAsync(string plannerId)
+    public async Task<PlannerDataRecord> GetPlannerDataAsync(ObjectId plannerId, CancellationToken ct)
     {
-        var cursor = await PlannerRepository.Collection.FindAsync(planner => planner.Id == ObjectId.Parse(plannerId));
+        var plannerDocument = await PlannerRepository.FindOneAsync(planner => planner.Id == plannerId, cancellationToken: ct);
+        
+        return await PlannerDataAssembler.ToPlannerDataAsync(plannerDocument, ct);
+    }
+    
+    public async Task<IEnumerable<SectionDocument>> GetPlannerSectionsAsync(ObjectId plannerId, CancellationToken ct)
+    {
+        var cursor = await PlannerRepository.Collection.FindAsync(planner => planner.Id == plannerId, cancellationToken: ct);
 
-        if (!await cursor.AnyAsync())
+        if (!await cursor.AnyAsync(cancellationToken: ct))
         {
             throw new ArgumentException("Planner not found");
         }
         
-        var plannerDocument = await cursor.FirstAsync();
+        var plannerDocument = await PlannerRepository.FindOneAsync(planner => planner.Id == plannerId, cancellationToken: ct);
         
-        return await PlannerDataAssembler.ToDataRecordAsync(plannerDocument);
+        return await PlannerDataAssembler.ToSectionsAsync(plannerDocument);
     }
 
-    public async Task AddCourseToPlannerAsync(string plannerId, string courseId)
+    public async Task AddCourseToPlannerAsync(ObjectId plannerId, string courseId, CancellationToken ct)
     {
-        var filter = Builders<PlannerDocument>.Filter.Eq(p => p.Id, ObjectId.Parse(plannerId));
+        var filter = Builders<PlannerDocument>.Filter.Eq(p => p.Id, plannerId);
         
-        var update = Builders<PlannerDocument>.Update.AddToSet(p => p.CourseIds, ObjectId.Parse(courseId));
+        var update = Builders<PlannerDocument>.Update.AddToSet(p => p.CourseIds, courseId);
         
-        var result = await PlannerRepository.Collection.UpdateOneAsync(filter, update);
+        var result = await PlannerRepository.Collection.UpdateOneAsync(filter, update, cancellationToken: ct);
         
         if (result.MatchedCount == 0)
         {
@@ -64,13 +73,13 @@ public class PlannerService
         }
     }
     
-    public async Task AddSectionToPlannerAsync(string plannerId, string sectionId)
+    public async Task AddSectionToPlannerAsync(ObjectId plannerId, int courseReferenceNumber, CancellationToken ct)
     {
-        var filter = Builders<PlannerDocument>.Filter.Eq(p => p.Id, ObjectId.Parse(plannerId));
+        var filter = Builders<PlannerDocument>.Filter.Eq(p => p.Id, plannerId);
         
-        var update = Builders<PlannerDocument>.Update.AddToSet(p => p.SectionIds, ObjectId.Parse(sectionId));
+        var update = Builders<PlannerDocument>.Update.AddToSet(p => p.SectionIds, courseReferenceNumber);
         
-        var result = await PlannerRepository.Collection.UpdateOneAsync(filter, update);
+        var result = await PlannerRepository.Collection.UpdateOneAsync(filter, update, cancellationToken: ct);
         
         if (result.MatchedCount == 0)
         {
