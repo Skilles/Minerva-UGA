@@ -58,14 +58,16 @@
       <TypeScriptCompile Include="ClientApp\src\ApiFetch.ts" />
       <TypeScriptCompile Include="ClientApp\src\components\Dashboard.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\IntroSection.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\components\LogoutButton.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\NavBar.tsx" />
       <TypeScriptCompile Include="ClientApp\src\context\AuthContext.tsx" />
       <None Include="ClientApp\src\context\AuthProvider.tsx" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useAuth.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useLocalStorage.ts" />
+      <TypeScriptCompile Include="ClientApp\src\hooks\usePlanner.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useUser.ts" />
+      <TypeScriptCompile Include="ClientApp\src\models\planner.ts" />
       <TypeScriptCompile Include="ClientApp\src\pages\Login.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\pages\Planner.tsx" />
       <TypeScriptCompile Include="ClientApp\src\pages\Register.tsx" />
     </ItemGroup>
 

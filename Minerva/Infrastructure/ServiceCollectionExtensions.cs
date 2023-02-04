@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddSingleton<CourseoffCapacityService>();
         serviceCollection.AddSingleton<PlannerDataAssembler>();
         serviceCollection.AddSingleton<PlannerService>();
+        serviceCollection.AddSingleton<PlannerFetchService>();
 
         return serviceCollection;
     }

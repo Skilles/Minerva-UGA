@@ -5,7 +5,7 @@ using Minerva.Features.Authentication.Services;
 
 namespace Minerva.Features.Authentication.Endpoints;
 
-[HttpPost("login")]
+[HttpPost("/auth/login")]
 [AllowAnonymous]
 public class LoginEndpoint : Endpoint<LoginUserRequest, UserResponseRecord>
 {

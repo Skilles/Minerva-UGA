@@ -50,7 +50,8 @@ class Program
             app.UseFastEndpoints(cfg =>
             {
                 cfg.Endpoints.RoutePrefix = "api";
-                //cfg.Endpoints.ShortNames = true;
+
+
                 cfg.Errors.ResponseBuilder = (failures, _, _) =>
                 {
                     return new ValidationFailureResponse
@@ -63,7 +64,10 @@ class Program
             if (app.Environment.IsDevelopment())
             {
                 app.UseOpenApi();
-                app.UseSwaggerUi3(s => s.ConfigureDefaults());
+                app.UseSwaggerUi3(s =>
+                {
+                    s.ConfigureDefaults();
+                });
             }
 
             app.UseAuthentication();

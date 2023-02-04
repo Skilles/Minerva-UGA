@@ -18,6 +18,6 @@ public class AddSectionEndpoint : Endpoint<PlannerSectionRequest>
     
     public override async Task HandleAsync(PlannerSectionRequest req, CancellationToken ct)
     {
-        await PlannerService.AddSectionToPlannerAsync(req.PlannerId, req.SectionId, ct);
+        await PlannerService.AddSectionToPlannerAsync(req.Id, req.SectionId, ct);
     }
 }
