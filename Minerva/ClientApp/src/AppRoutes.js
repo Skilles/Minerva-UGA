@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Map from "./pages/Map";
 
 const AppRoutes = [
   {
@@ -24,7 +25,7 @@ const AppRoutes = [
   },
   {
     path: '/map',
-    element: <div />,
+    element: <Map/>,
     navLabel: "Map",
     authRequired: true
   },
