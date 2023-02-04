@@ -1,0 +1,13 @@
+﻿using Minerva.Config;
+using Minerva.Features.Athena.Documents;
+using MongoDB.Driver;
+
+namespace Minerva.Infrastructure.Database.Repositories;
+
+public class BuildingRepository : MongoRepository<BuildingDocument>
+{
+    public BuildingRepository(IMongoClient client, MinervaConfig config) : base(client, config, "buildings")
+    {
+        
+    }
+}
