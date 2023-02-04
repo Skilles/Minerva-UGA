@@ -11,7 +11,7 @@ public class PlannerDocument : MongoDocument
     
     public ObjectId TermId { get; set; }
     
-    public List<ObjectId> CourseIds { get; set; }
+    public List<string> CourseIds { get; set; }
     
-    public List<ObjectId> SectionIds { get; set; }
+    public List<int> SectionIds { get; set; }
 }

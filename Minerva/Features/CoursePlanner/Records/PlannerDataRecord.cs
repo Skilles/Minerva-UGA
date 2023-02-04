@@ -3,5 +3,5 @@
 public record PlannerDataRecord
 (
     string PlannerName,
-    List<CourseDataRecord> Courses
+    IEnumerable<CourseDataRecord> Courses
 );
