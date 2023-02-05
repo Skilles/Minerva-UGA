@@ -18,6 +18,6 @@ public class AddCourseEndpoint : Endpoint<PlannerCourseRequest>
     
     public override async Task HandleAsync(PlannerCourseRequest req, CancellationToken ct)
     {
-        await PlannerService.AddCourseToPlannerAsync(req.PlannerId, req.CourseId, ct);
+        await PlannerService.AddCourseToPlannerAsync(req.Id, req.CourseId, ct);
     }
 }

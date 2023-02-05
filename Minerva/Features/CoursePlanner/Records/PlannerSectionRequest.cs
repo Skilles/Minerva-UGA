@@ -2,7 +2,7 @@
 
 namespace Minerva.Features.CoursePlanner.Records;
 
-public class PlannerSectionRequest : PlannerDataRequest
+public class PlannerSectionRequest : IdRequest<ObjectId>
 {
     public int SectionId { get; set; }
 }

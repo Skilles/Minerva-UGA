@@ -35,7 +35,7 @@ export function AuthProvider({ children }: any) {
     }, []);
 
     const login = (email: string, password: string, rememberMe: boolean) => {
-        return post('login', {email: email, password: password})
+        return post('auth/login', {email: email, password: password})
             .then((data) => {
                 console.log(data);
                 const user: User = {
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: any) {
     };
 
     const register = (firstName: string, lastName: string, email: string, password: string) => {
-        return post('register', {firstName: firstName, lastName: lastName, email: email, password: password})
+        return post('auth/register', {firstName: firstName, lastName: lastName, email: email, password: password})
             .catch(({ response: { data: { error } } }) => {
                 console.error(error);
                 throw error;

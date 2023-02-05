@@ -1,6 +1,5 @@
 ﻿using System.Net.Mail;
 using System.Text;
-using System.Text.Json;
 using Minerva.Config;
 
 namespace Minerva.Infrastructure.Email.Services;

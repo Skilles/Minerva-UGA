@@ -5,7 +5,7 @@ using Minerva.Features.Authentication.Services;
 
 namespace Minerva.Features.Authentication.Endpoints;
 
-[HttpGet("verify")]
+[HttpGet("/auth/verify")]
 [AllowAnonymous]
 public class VerifyEndpoint : Endpoint<VerifyEndpointRequest>
 {
