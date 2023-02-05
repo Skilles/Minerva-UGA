@@ -6,7 +6,7 @@ using MongoDB.Bson;
 namespace Minerva.Features.CoursePlanner.Endpoints;
 
 [HttpGet("/planner")]
-public class PlannerDataEndpoint  : Endpoint<IdRequest<ObjectId>, PlannerDataRecord>
+public class PlannerDataEndpoint  : Endpoint<IdRequest<string>, PlannerDataRecord>
 {
     private readonly PlannerService PlannerService;
     
@@ -15,5 +15,5 @@ public class PlannerDataEndpoint  : Endpoint<IdRequest<ObjectId>, PlannerDataRec
         PlannerService = plannerFetchService;
     }
     
-    public override Task<PlannerDataRecord> ExecuteAsync(IdRequest<ObjectId> req, CancellationToken ct) => PlannerService.GetPlannerDataAsync(req.Id, ct);
+    public override Task<PlannerDataRecord> ExecuteAsync(IdRequest<string> req, CancellationToken ct) => PlannerService.GetPlannerDataAsync(req.Id, ct);
 }

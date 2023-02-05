@@ -1,7 +1,11 @@
 ﻿import {useEffect, useState} from "react";
 
-import {Meeting, Planner, ScheduleTimeslot} from "../models/planner";
+import {Course, Meeting, Planner, ScheduleTimeslot, Subject} from "../models/planner";
 import {DateTime, WeekdayNumbers} from "luxon";
+import {useAuth} from "./useAuth";
+import {fetchWithAuth} from "../ApiFetch";
+import {User} from "../models/user";
+import useTerm from "./useTerm";
 
 // Converts the start time from number of minutes since 12:00 AM to DateTime in Luxon
 const convertDayTime = (day: WeekdayNumbers, startTime: number): DateTime => {
@@ -50,26 +54,57 @@ const convertMeetings = (meetings: Meeting[]): ScheduleTimeslot[] => {
     return timeslots;
 }
 
-export const usePlanner = () => {
+export const usePlanner = (plannerId: string) => {
+    const { isLoggedIn, user } = useAuth();
     const [planner, setPlanner] = useState<Planner | null>(null);
-    
+
     useEffect(() => {
-        const fetchPlannerData = async () => {
-            const response = await fetch('api/planner');
-            const data = await response.json();
-            setPlanner(data);
+        if (!isLoggedIn) {
+            return;
         }
-        fetchPlannerData().catch(console.error);
+        fetchWithAuth(`planner?id=${plannerId}`, user!).then(data => {
+            setPlanner(data);
+        }).catch(console.error);
+        
     }, []);
     
-    const plannerData = () => {
-        
-        
+    const getSection = (crn: number) => {
+        if (!planner) return null;
+        return planner.sections[crn];
     }
     
-    const mapBuildings = () => {
-        
+    const scheduleData = (): ScheduleTimeslot[] => {
+        if (!planner) return [];
+        const meetings: Meeting[] = [];
+        for (const course of Object.values(planner.courses)) {
+            for (const crn of course.sections) {
+                const section = planner.sections[crn];
+                if (section) {
+                    meetings.push(...section.meetings);
+                }
+            }
+        }
+        return convertMeetings(meetings);
     }
     
-    return { plannerData, mapBuildings };
+    // Get all building names for all the meetings on a certain day
+    const buildingsData = (day: number): string[] => {
+        if (!planner) return [];
+        const buildings: string[] = [];
+        for (const section of Object.values(planner.sections)) {
+            for (const meeting of section.meetings) {
+                if (meeting.days & (1 << day)) {
+                    buildings.push(meeting.building);
+                }
+            }
+        }
+        return buildings;
+    }
+    
+    const getCourses = (): Course[] => {
+        if (!planner) return [];
+        return Object.values(planner.courses);
+    }
+    
+    return { scheduleData, buildingsData, getCourses };
 }

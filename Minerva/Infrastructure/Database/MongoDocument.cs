@@ -5,8 +5,9 @@ namespace Minerva.Infrastructure.Database;
 
 public abstract class MongoDocument
 {
+    [BsonRepresentation(BsonType.ObjectId)]
     [BsonIgnoreIfDefault]
-    public ObjectId Id { get; set; } = ObjectId.Empty;
+    public string Id { get; set; } = ObjectId.Empty.ToString();
 
     /// <summary>The created on (UTC).</summary>
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;

@@ -17,6 +17,7 @@ public class PlannerFetchService
     
     public PlannerFetchService(IRepository<TermDocument> termRepository, IRepository<SubjectDocument> subjectRepository, IRepository<CourseDocument> courseRepository, IRepository<SectionDocument> sectionRepository)
     {
+        TermRepository = termRepository;
         SubjectRepository = subjectRepository;
         CourseRepository = courseRepository;
         SectionRepository = sectionRepository;
@@ -63,7 +64,14 @@ public class PlannerFetchService
     
     public async Task<IEnumerable<TermDocument>> GetAllTermsAsync(CancellationToken ct)
     {
-        var terms = await TermRepository.Collection.FindAsync(FilterDefinition<TermDocument>.Empty, cancellationToken: ct);
+        var terms = await TermRepository.Collection.FindAsync(_ => true, cancellationToken: ct);
         return await terms.ToListAsync(ct);
+    }
+
+    public async Task<IEnumerable<SectionDocument>> GetSectionsByIdsAsync(IEnumerable<int> crns, CancellationToken ct)
+    {
+        var filter = Builders<SectionDocument>.Filter.In(s => s.CourseReferenceNumber, crns);
+        var sections = await SectionRepository.Collection.FindAsync(filter, cancellationToken: ct);
+        return await sections.ToListAsync(cancellationToken: ct);
     }
 }

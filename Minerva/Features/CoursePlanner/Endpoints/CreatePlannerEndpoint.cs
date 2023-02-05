@@ -8,7 +8,7 @@ namespace Minerva.Features.CoursePlanner.Endpoints;
 
 [HttpPost("/planner")]
 [Authorize]
-public class CreatePlannerEndpoint : Endpoint<CreatePlannerRequest, ObjectId>
+public class CreatePlannerEndpoint : Endpoint<CreatePlannerRequest, string>
 {
     private readonly PlannerService PlannerService;
     
@@ -17,5 +17,5 @@ public class CreatePlannerEndpoint : Endpoint<CreatePlannerRequest, ObjectId>
         PlannerService = plannerService;
     }
     
-    public override async Task<ObjectId> ExecuteAsync(CreatePlannerRequest req, CancellationToken ct) => await PlannerService.CreatePlannerAsync(req.UserId, req.TermId, ct);
+    public override async Task<string> ExecuteAsync(CreatePlannerRequest req, CancellationToken ct) => await PlannerService.CreatePlannerAsync(req.Email, req.TermId, ct);
 }

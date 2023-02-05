@@ -7,9 +7,9 @@ public class PlannerDocument : MongoDocument
 {
     public string Name { get; set; }
     
-    public ObjectId UserId { get; set; }
+    public string UserId { get; set; }
     
-    public ObjectId TermId { get; set; }
+    public int TermId { get; set; }
     
     public List<string> CourseIds { get; set; }
     

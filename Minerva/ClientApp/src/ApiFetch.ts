@@ -1,5 +1,5 @@
 ﻿import axios from "axios";
-import {User} from "./hooks/useUser";
+import {User} from "./models/user";
 
 const authHeader = (user: User) => {
     return { Authorization: `Bearer ${user.authToken}` };

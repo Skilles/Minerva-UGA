@@ -29,7 +29,7 @@ public class JWTService
              new Claim("roles", user.Role.ToString()),
              new Claim("Date", DateTime.Now.ToString(CultureInfo.InvariantCulture)),
              new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-             new Claim("userId", user.Id.ToString())
+             new Claim("userId", user.Id)
          };
 
          var token = new JwtSecurityToken(Config.Issuer, Config.Issuer, claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);

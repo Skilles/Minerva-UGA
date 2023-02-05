@@ -4,5 +4,6 @@ namespace Minerva.Features.Authentication.Records;
 
 public class UserData
 {
-    public Dictionary<int, ObjectId> Planners { get; set; } = new();
+    // TermId => PlannerId
+    public IDictionary<string, string> Planners { get; set; } = new Dictionary<string, string>();
 }
