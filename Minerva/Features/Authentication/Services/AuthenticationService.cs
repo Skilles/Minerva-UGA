@@ -19,9 +19,12 @@ public class AuthenticationService
     private readonly EmailService EmailService;
 
     private readonly PasswordHasher<UserDocument> PasswordHasher;
+    
+    private readonly ILogger<AuthenticationService> Logger;
 
-    public AuthenticationService(JWTService jwtService, EmailService emailService, IRepository<UserDocument> userRepository)
+    public AuthenticationService(ILogger<AuthenticationService> logger, JWTService jwtService, EmailService emailService, IRepository<UserDocument> userRepository)
     {
+        Logger = logger;
         JWTService = jwtService;
         EmailService = emailService;
         UserRepository = userRepository;
@@ -105,6 +108,8 @@ public class AuthenticationService
             throw new MinervaValidationException("User is not verified");
         }
 
+        Logger.LogInformation("Logged in user with id {Id}", user.Id);
+        
         return new
         (
             user.FirstName,

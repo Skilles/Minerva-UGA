@@ -15,17 +15,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.123"/>
-        <PackageReference Include="FastEndpoints" Version="5.7.0"/>
-        <PackageReference Include="FastEndpoints.Swagger" Version="5.7.0"/>
-        <PackageReference Include="GraphQL.Client" Version="5.1.1"/>
-        <PackageReference Include="GraphQL.Client.Abstractions" Version="5.1.1"/>
-        <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="5.1.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2"/>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0"/>
-        <PackageReference Include="MongoDB.Driver" Version="2.18.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.2"/>
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="FastEndpoints" Version="5.7.0" />
+        <PackageReference Include="FastEndpoints.Swagger" Version="5.7.0" />
+        <PackageReference Include="GraphQL.Client" Version="5.1.1" />
+        <PackageReference Include="GraphQL.Client.Abstractions" Version="5.1.1" />
+        <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="5.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,13 +62,21 @@
       <TypeScriptCompile Include="ClientApp\src\components\Dashboard.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\IntroSection.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\NavBar.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\PlannerControl.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\PlannerCourseCard.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\TermSelector.ts" />
       <TypeScriptCompile Include="ClientApp\src\context\AuthContext.tsx" />
       <None Include="ClientApp\src\context\AuthProvider.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\context\TermContext.ts" />
+      <None Include="ClientApp\src\context\TermProvider.tsx" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useAuth.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useLocalStorage.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\usePlanner.ts" />
+      <TypeScriptCompile Include="ClientApp\src\hooks\useTerm.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useUser.ts" />
       <TypeScriptCompile Include="ClientApp\src\models\planner.ts" />
+      <TypeScriptCompile Include="ClientApp\src\models\term.ts" />
+      <TypeScriptCompile Include="ClientApp\src\models\user.ts" />
       <TypeScriptCompile Include="ClientApp\src\pages\Login.tsx" />
       <TypeScriptCompile Include="ClientApp\src\pages\Planner.tsx" />
       <TypeScriptCompile Include="ClientApp\src\pages\Register.tsx" />

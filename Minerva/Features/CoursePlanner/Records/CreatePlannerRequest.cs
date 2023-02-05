@@ -1,12 +1,12 @@
-﻿using FastEndpoints;
-using MongoDB.Bson;
+﻿using System.Security.Claims;
+using FastEndpoints;
 
 namespace Minerva.Features.CoursePlanner.Records;
 
 public class CreatePlannerRequest
 {
-    [FromClaim]
-    public ObjectId UserId { get; set; }
+    [FromClaim(ClaimTypes.Email)]
+    public string Email { get; set; }
     
-    public ObjectId TermId { get; set; }
+    public int TermId { get; set; }
 }

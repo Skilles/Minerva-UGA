@@ -2,8 +2,9 @@
 
 import {AuthContext} from "./AuthContext";
 import {post} from "../ApiFetch";
-import {User, useUser} from "../hooks/useUser";
+import {useUser} from "../hooks/useUser";
 import {useLocalStorage} from "../hooks/useLocalStorage";
+import {User} from "../models/user";
 
 
 const isJwtValid = (jwt: string) => {
@@ -44,7 +45,8 @@ export function AuthProvider({ children }: any) {
                     lastName: data.lastName,
                     email: email,
                     role: data.role,
-                    authToken: data.jwtToken
+                    authToken: data.jwtToken,
+                    data: data.data
                 };
                 addUser(user, rememberMe);
                 setIsLoggedIn(true);

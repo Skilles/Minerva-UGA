@@ -23,10 +23,17 @@ export interface Section {
 
 export interface Course {
     name: string;
-    sections: Section[];
+    sections: number[];
 }
 
 export interface Planner {
     name: string;
-    courses: Course[];
+    term: string;
+    courses: Record<string, Course>; // CourseId -> Course
+    sections: Record<number, Section>; // CRN -> Section
+}
+
+export interface Subject {
+    subjectId: string;
+    name: string;
 }

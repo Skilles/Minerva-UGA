@@ -9,6 +9,8 @@ const onError = (err, req, resp, target) => {
     console.error(`${err.message}`);
 }
 
+console.log(`Proxying to ${target}...`);
+
 module.exports = function (app) {
   const appProxy = createProxyMiddleware({
     target: target,

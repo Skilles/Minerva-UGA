@@ -2,8 +2,8 @@
 
 import {fetchWithAuth} from "../ApiFetch";
 import {DirectionsRenderer, GoogleMap, Marker, useJsApiLoader} from '@react-google-maps/api';
-import {User} from "../hooks/useUser";
 import {useAuth} from "../hooks/useAuth";
+import {User} from "../models/user";
 
 let marker: google.maps.Marker;
 
