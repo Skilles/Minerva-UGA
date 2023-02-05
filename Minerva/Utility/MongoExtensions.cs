@@ -11,26 +11,35 @@ namespace Minerva.Utility;
 
 public static class MongoExtensions
 {
-    public static async Task<TResult> FindOneAsync<TResult>(this IRepository<TResult> repository, FilterDefinition<TResult> filter, ProjectionDefinition<TResult>? projection = null, CancellationToken cancellationToken = default)
+    public static async Task<TResult?> FindOneAsync<TResult>(this IRepository<TResult> repository,
+        FilterDefinition<TResult> filter, ProjectionDefinition<TResult>? projection = null,
+        CancellationToken cancellationToken = default)
     {
-        var options = new FindOptions<TResult>
-        {
-            Limit = 1,
-            Projection = projection
-        };
+        var options = projection == null
+            ? null
+            : new FindOptions<TResult>
+            {
+                Limit = 1,
+                Projection = projection
+            };
 
         var cursor = await repository.Collection.FindAsync(filter, options, cancellationToken);
 
-        return await cursor.FirstAsync(cancellationToken);
+        return await cursor.FirstOrDefaultAsync(cancellationToken);
     }
-    
-    public static async Task<TResult> FindOneAsync<TResult>(this IRepository<TResult> repository, Expression<Func<TResult, bool>> filter, ProjectionDefinition<TResult>? projection = null, CancellationToken cancellationToken = default) 
-        => await repository.FindOneAsync(new ExpressionFilterDefinition<TResult>(filter), projection, cancellationToken);
 
-    public static TResult DoTransaction<TResult>(this IMongoClient client, Func<IClientSessionHandle, CancellationToken, TResult> action, TransactionOptions? options = null, CancellationToken cancellationToken = default)
+    public static async Task<TResult?> FindOneAsync<TResult>(this IRepository<TResult> repository,
+        Expression<Func<TResult, bool>> filter, ProjectionDefinition<TResult>? projection = null,
+        CancellationToken cancellationToken = default)
+        => await repository.FindOneAsync(new ExpressionFilterDefinition<TResult>(filter), projection,
+            cancellationToken);
+
+    public static TResult DoTransaction<TResult>(this IMongoClient client,
+        Func<IClientSessionHandle, CancellationToken, TResult> action, TransactionOptions? options = null,
+        CancellationToken cancellationToken = default)
     {
         using var session = client.StartSession();
-        
+
         options ??= new(
             readPreference: ReadPreference.Primary,
             readConcern: ReadConcern.Local,
@@ -47,8 +56,9 @@ public static class MongoExtensions
         }
     }
 
-    public static async Task<TResult> DoTransactionAsync<TResult>(this IMongoClient client, Func<IClientSessionHandle, CancellationToken, Task<TResult>> action, TransactionOptions? options = null,
-                                                                  CancellationToken cancellationToken = default)
+    public static async Task<TResult> DoTransactionAsync<TResult>(this IMongoClient client,
+        Func<IClientSessionHandle, CancellationToken, Task<TResult>> action, TransactionOptions? options = null,
+        CancellationToken cancellationToken = default)
     {
         using var session = await client.StartSessionAsync(cancellationToken: cancellationToken);
 
@@ -71,10 +81,11 @@ public static class MongoExtensions
     {
         BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-        
+
         serviceCollection.AddSingleton<IMongoClient>(_ => new MongoClient(config.Mongo.ConnectionString));
 
-        var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && !t.IsAbstract && Util.IsAssignableToGenericType(t, typeof(IRepository<>)));
+        var types = Assembly.GetExecutingAssembly().GetTypes().Where(t =>
+            t.IsClass && !t.IsAbstract && Util.IsAssignableToGenericType(t, typeof(IRepository<>)));
         foreach (var type in types)
         {
             var interfaceType = Util.GetGenericInterfaceForType(type, typeof(IRepository<>));

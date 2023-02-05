@@ -15,14 +15,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapper" Version="2.0.123" />
-      <PackageReference Include="FastEndpoints" Version="5.7.0" />
-      <PackageReference Include="FastEndpoints.Swagger" Version="5.7.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
-      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
-      <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.2" />
+        <PackageReference Include="Dapper" Version="2.0.123"/>
+        <PackageReference Include="FastEndpoints" Version="5.7.0"/>
+        <PackageReference Include="FastEndpoints.Swagger" Version="5.7.0"/>
+        <PackageReference Include="GraphQL.Client" Version="5.1.1"/>
+        <PackageReference Include="GraphQL.Client.Abstractions" Version="5.1.1"/>
+        <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="5.1.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2"/>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0"/>
+        <PackageReference Include="MongoDB.Driver" Version="2.18.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.2"/>
     </ItemGroup>
 
     <ItemGroup>

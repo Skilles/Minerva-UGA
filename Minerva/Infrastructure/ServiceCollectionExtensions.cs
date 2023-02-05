@@ -3,6 +3,7 @@ using Minerva.Features.Athena.Services;
 using Minerva.Features.Authentication.Services;
 using Minerva.Features.CoursePlanner.Assemblers;
 using Minerva.Features.CoursePlanner.Services;
+using Minerva.Features.Rating.Services;
 using Minerva.Infrastructure.Email.Services;
 using Minerva.Utility;
 
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddMongoDb(config);
         serviceCollection.AddHttpClient<CourseoffCapacityService>();
         serviceCollection.AddHttpClient<EmailService>();
+        serviceCollection.AddHttpClient<RmpClient>();
         serviceCollection.AddSingleton<EmailService>();
         serviceCollection.AddSingleton<JWTService>();
         serviceCollection.AddSingleton<AuthenticationService>();
@@ -23,6 +25,8 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddSingleton<PlannerDataAssembler>();
         serviceCollection.AddSingleton<PlannerService>();
         serviceCollection.AddSingleton<PlannerFetchService>();
+        serviceCollection.AddSingleton<RmpService>();
+        serviceCollection.AddSingleton<RmpClient>();
 
         return serviceCollection;
     }
