@@ -59,7 +59,8 @@ public class AuthenticationService
             Password = HashPassword(password),
             Role = Role.User,
             Verified = false,
-            UniqueToken = token
+            UniqueToken = token,
+            Data = new()
         };
 
         await UserRepository.UpsertAsync(user, u => u.Email, ct);

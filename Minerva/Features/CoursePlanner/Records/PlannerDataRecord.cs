@@ -1,7 +1,10 @@
-﻿namespace Minerva.Features.CoursePlanner.Records;
+﻿using Minerva.Features.Athena.Documents;
+
+namespace Minerva.Features.CoursePlanner.Records;
 
 public record PlannerDataRecord
 (
     string PlannerName,
-    IEnumerable<CourseDataRecord> Courses
+    IDictionary<string, CourseDataRecord> Courses,
+    IDictionary<int, SectionDocument> Sections
 );
