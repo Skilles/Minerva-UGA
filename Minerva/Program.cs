@@ -39,14 +39,17 @@ class Program
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseStaticFiles();
 
             app.UseRouting();
-    
+
             app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
-    
+
             app.UseValidationException();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseFastEndpoints(cfg =>
             {
                 cfg.Endpoints.RoutePrefix = "api";
@@ -64,14 +67,9 @@ class Program
             if (app.Environment.IsDevelopment())
             {
                 app.UseOpenApi();
-                app.UseSwaggerUi3(s =>
-                {
-                    s.ConfigureDefaults();
-                });
+                app.UseSwaggerUi3(s => { s.ConfigureDefaults(); });
             }
 
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.MapFallbackToFile("index.html");
         }
@@ -84,19 +82,19 @@ class Program
             services.AddSwaggerDoc();
             services.AddAuthorization();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new()
                     {
-                        options.TokenValidationParameters = new()
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = config.Jwt.Issuer,
-                            ValidAudience = config.Jwt.Issuer,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Jwt.Key))
-                        };
-                    });
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = config.Jwt.Issuer,
+                        ValidAudience = config.Jwt.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Jwt.Key))
+                    };
+                });
             services.AddCors();
         }
     }
