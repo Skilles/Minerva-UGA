@@ -60,4 +60,10 @@ public class PlannerFetchService
             return await sections.ToListAsync(ct);
         }, cancellationToken: ct);
     }
+    
+    public async Task<IEnumerable<TermDocument>> GetAllTermsAsync(CancellationToken ct)
+    {
+        var terms = await TermRepository.Collection.FindAsync(FilterDefinition<TermDocument>.Empty, cancellationToken: ct);
+        return await terms.ToListAsync(ct);
+    }
 }
