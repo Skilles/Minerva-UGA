@@ -6,10 +6,15 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import AppRoutes from './AppRoutes';
 import Layout from './components/Layout';
 import './custom.css';
-import {defaultQueryFn} from "./ApiFetch";
 import {AuthProvider} from "./context/AuthProvider";
 import {TermProvider} from "./context/TermProvider";
+import axios from "axios";
 
+
+const defaultQueryFn = async ({ queryKey }: any) => {
+    const { data } = await axios.get(`api/${queryKey[0]}`);
+    return data;
+};
 
 // provide the default query function to your app with defaultOptions
 const queryClient = new QueryClient({

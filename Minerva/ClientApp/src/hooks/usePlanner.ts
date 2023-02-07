@@ -3,9 +3,7 @@
 import {Course, Meeting, Planner, ScheduleTimeslot, Subject} from "../models/planner";
 import {DateTime, WeekdayNumbers} from "luxon";
 import {useAuth} from "./useAuth";
-import {fetchWithAuth} from "../ApiFetch";
-import {User} from "../models/user";
-import useTerm from "./useTerm";
+import useFetch from "./useFetch";
 
 // Converts the start time from number of minutes since 12:00 AM to DateTime in Luxon
 const convertDayTime = (day: WeekdayNumbers, startTime: number): DateTime => {
@@ -55,14 +53,16 @@ const convertMeetings = (meetings: Meeting[]): ScheduleTimeslot[] => {
 }
 
 export const usePlanner = (plannerId: string) => {
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn} = useAuth();
+    const { fetchWithAuth } = useFetch();
+    
     const [planner, setPlanner] = useState<Planner | null>(null);
 
     useEffect(() => {
         if (!isLoggedIn) {
             return;
         }
-        fetchWithAuth(`planner?id=${plannerId}`, user!).then(data => {
+        fetchWithAuth(`planner?id=${plannerId}`).then(data => {
             setPlanner(data);
         }).catch(console.error);
         

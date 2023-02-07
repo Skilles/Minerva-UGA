@@ -2,9 +2,18 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Map from "./pages/Map";
-import Planner from "./pages/Planner";
+import Planner from "./components/Planner/Planner";
 
-const AppRoutes = [
+
+export interface AppRoute {
+  path?: string;
+  element: JSX.Element;
+  navLabel?: string;
+  index?: boolean;
+  authRequired?: boolean;
+}
+
+const AppRoutes: AppRoute[] = [
   {
     index: true,
     element: <Home />,

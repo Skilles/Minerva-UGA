@@ -6,7 +6,7 @@ import {
     UnstyledButton,
     createStyles,
     Stack,
-    useMantineColorScheme, MantineTheme, Group, ActionIcon
+    useMantineColorScheme, MantineTheme, Group
 } from '@mantine/core';
 import { MantineLogo } from '@mantine/ds';
 import {

@@ -1,8 +1,6 @@
-﻿import { createStyles, Container, Text, Button, Group, Paper } from '@mantine/core';
-import { GithubIcon } from '@mantine/ds';
+﻿import { createStyles, Container, Text, Button, Group, ActionIcon, useMantineColorScheme } from '@mantine/core';
 import {Link} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth";
-import Dashboard from "./Dashboard";
+import { MoonStars, Sun } from 'tabler-icons-react';
 
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -72,9 +70,25 @@ const useStyles = createStyles((theme) => ({
 
 export default function IntroSection() {
     const { classes } = useStyles();
+    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
     return (
         <div className={classes.wrapper}>
+            <ActionIcon
+                onClick={() => toggleColorScheme()}
+                size="lg"
+                sx={(theme) => ({
+                    backgroundColor:
+                        theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[1],
+                    color: theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+                    position: 'absolute',
+                    top: theme.spacing.md,
+                    right: theme.spacing.md,
+                    zIndex: 1,
+                })}
+            >
+                {colorScheme === 'dark' ? <Sun /> : <MoonStars />}
+            </ActionIcon>
             <Container size={800} className={classes.inner} style={{
                 height: '100vh',
             }}>

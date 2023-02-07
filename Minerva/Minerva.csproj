@@ -62,14 +62,17 @@
       <TypeScriptCompile Include="ClientApp\src\components\Dashboard.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\IntroSection.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\NavBar.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\components\PlannerControl.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\components\PlannerCourseCard.tsx" />
+      <None Include="ClientApp\src\components\PlannerCourseList.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\Planner\Planner.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\Planner\PlannerControl.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\components\Planner\PlannerSchedule.tsx" />
       <TypeScriptCompile Include="ClientApp\src\components\TermSelector.ts" />
       <TypeScriptCompile Include="ClientApp\src\context\AuthContext.tsx" />
       <None Include="ClientApp\src\context\AuthProvider.tsx" />
       <TypeScriptCompile Include="ClientApp\src\context\TermContext.ts" />
       <None Include="ClientApp\src\context\TermProvider.tsx" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useAuth.ts" />
+      <TypeScriptCompile Include="ClientApp\src\hooks\useFetch.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useLocalStorage.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\usePlanner.ts" />
       <TypeScriptCompile Include="ClientApp\src\hooks\useTerm.ts" />
@@ -78,7 +81,6 @@
       <TypeScriptCompile Include="ClientApp\src\models\term.ts" />
       <TypeScriptCompile Include="ClientApp\src\models\user.ts" />
       <TypeScriptCompile Include="ClientApp\src\pages\Login.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\pages\Planner.tsx" />
       <TypeScriptCompile Include="ClientApp\src\pages\Register.tsx" />
     </ItemGroup>
 

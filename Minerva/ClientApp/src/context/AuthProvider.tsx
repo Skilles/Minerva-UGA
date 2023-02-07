@@ -1,10 +1,11 @@
 ﻿import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import {AuthContext} from "./AuthContext";
-import {post} from "../ApiFetch";
 import {useUser} from "../hooks/useUser";
 import {useLocalStorage} from "../hooks/useLocalStorage";
 import {User} from "../models/user";
+import useFetch from "../hooks/useFetch";
 
 
 const isJwtValid = (jwt: string) => {
@@ -19,6 +20,8 @@ const isJwtValid = (jwt: string) => {
 export function AuthProvider({ children }: any) {
     const { user, addUser, removeUser } = useUser();
     const { getItem } = useLocalStorage();
+    const { post } = useFetch();
+    const navigate = useNavigate();
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -68,6 +71,7 @@ export function AuthProvider({ children }: any) {
     const logout = () => {
         removeUser();
         setIsLoggedIn(false);
+        navigate('/');
     };
     
     // @ts-ignore

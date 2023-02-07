@@ -1,10 +1,9 @@
-﻿import {useContext, useEffect, useState} from "react";
+﻿import {useEffect, useState} from "react";
 
 import {Term} from "../models/term";
 import { Select } from "@mantine/core";
 import useTerm from "../hooks/useTerm";
-import {fetch, fetchWithAuth, postWithAuth} from "../ApiFetch";
-import {useAuth} from "../hooks/useAuth";
+import useFetch from "../hooks/useFetch";
 
 interface TermData {
     label: string;
@@ -27,8 +26,7 @@ const testData: TermData[] = [
 
 export default function TermSelector() {
     const { term, setTerm } = useTerm();
-    
-    const { user } = useAuth();
+    const { postWithAuth, fetchWithAuth } = useFetch();
     
     const [terms, setTerms] = useState<Record<string, TermData>>({});
     
@@ -52,7 +50,7 @@ export default function TermSelector() {
         let data = {
             termId: termId
         }
-        postWithAuth(`planner`, data, user!)
+        postWithAuth(`planner`, data)
             .then((plannerId) => {
                 console.log("planner created: " + plannerId);
             }
@@ -62,7 +60,7 @@ export default function TermSelector() {
     }
     
     useEffect(() => {
-        fetchWithAuth('search/terms', user!)
+        fetchWithAuth('search/terms')
             .then((terms: Term[]) => {
                 console.log("fetched terms: " + JSON.stringify(terms));
                 let termDict: Record<string, TermData> = {};

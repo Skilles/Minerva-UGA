@@ -1,9 +1,7 @@
 ﻿import React, {useEffect, useState} from 'react'
 
-import {fetchWithAuth} from "../ApiFetch";
 import {DirectionsRenderer, GoogleMap, Marker, useJsApiLoader} from '@react-google-maps/api';
-import {useAuth} from "../hooks/useAuth";
-import {User} from "../models/user";
+import useFetch from "../hooks/useFetch";
 
 let marker: google.maps.Marker;
 
@@ -29,19 +27,13 @@ const getBuildingNames = (buildings: string[]) => {
     })
 }
 
-const getBuildingNamesFromApi = async (user: User): Promise<string[]> => {
-    const response = await fetchWithAuth('map/buildings', user);
-    return await response.json();
-}
-
 export function Map() {
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: "AIzaSyBN89q8mk_8-qj0DKwiVK5-BAHDyEZqCMs",
         libraries: ['places'],
     })
-
-    const {user} = useAuth();
-
+    const { fetchWithAuth } = useFetch();
+    
     const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | undefined>(undefined);
     //const [distance, setDistance] = React.useState<string>('')
     //const [duration, setDuration] = React.useState<string>('')
@@ -50,7 +42,7 @@ export function Map() {
         if (!isLoaded) {
             return;
         }
-        getBuildingNamesFromApi(user!).then((data) => {
+        getBuildingNamesFromApi().then((data) => {
             console.log("fetched building names")
             calculateRoute(getBuildingNames(data)).then((response) => {
                 setDirectionsResponse(response);
@@ -65,6 +57,11 @@ export function Map() {
 
     if (!isLoaded) {
         return <div>Loading...</div>
+    }
+
+    const getBuildingNamesFromApi = async (): Promise<string[]> => {
+        const response = await fetchWithAuth('map/buildings');
+        return await response.json();
     }
 
     async function calculateRoute(buildings: string[]): Promise<google.maps.DirectionsResult> {

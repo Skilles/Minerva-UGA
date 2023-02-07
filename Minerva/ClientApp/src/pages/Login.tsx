@@ -1,5 +1,5 @@
 ﻿import React, {useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {TextInput, Checkbox, Button, Group, Box, Alert, Container, Title, Paper, PasswordInput, Anchor, Text} from '@mantine/core';
 import {useForm} from "@mantine/form";
 
@@ -17,11 +17,10 @@ const Login = () => {
             password: '',
             rememberMe: false,
         },
-
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
             password: (value) => (value.length > 5 ? null : 'Password must be at least 6 characters long'),
-        },
+        }
     });
 
     const handleLogin = ({ email, password, rememberMe }: any) => {
@@ -43,9 +42,9 @@ const Login = () => {
             </Title>
             <Text color="dimmed" size="sm" align="center" mt={5}>
                 Do not have an account yet?{' '}
-                <Anchor<'a'> href="#" size="sm" onClick={(event) => event.preventDefault()}>
+                <Link to={'/register'}>
                     Create account
-                </Anchor>
+                </Link>
             </Text>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
